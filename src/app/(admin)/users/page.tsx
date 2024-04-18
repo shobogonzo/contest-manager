@@ -1,20 +1,32 @@
-import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
-import { ResourcesConfig } from 'aws-amplify';
 import { cookies } from 'next/headers';
-import { columns } from './columns';
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { DataTable } from './data-table';
+import { columns } from './columns';
 
-import config from '@/amplifyconfiguration.json';
 import * as queries from '@/graphql/queries';
 import { User } from '@/API';
+import { getTenantContext } from '@/utils/amplifyServerUtils';
 
-const serverClient = generateServerClientUsingCookies({
-  config: config as ResourcesConfig,
-  cookies
-});
+const serverClients: any[] = [];
 
 async function getData(): Promise<User[]> {
   'use server';
+  let serverClient = serverClients.find(
+    (c) => c.cookies === cookies
+  )?.serverClient;
+
+  if (!serverClient) {
+    // TODO get tenantId from cookies
+    const tenantId = 'default';
+    const context = await getTenantContext(tenantId);
+    serverClient = generateServerClientUsingCookies({
+      config: context.config,
+      cookies
+    });
+
+    serverClients.push({ cookies, serverClient });
+  }
+
   const { data }: any = await serverClient.graphql({
     query: queries.listUsers,
     variables: { limit: 10 }

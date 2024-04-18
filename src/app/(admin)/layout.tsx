@@ -1,6 +1,6 @@
 import Header from '@/components/header';
 import NavBar from '@/components/navbar';
-import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
+import { getTenantContext } from '@/utils/amplifyServerUtils';
 import { cookies } from 'next/headers';
 import { getCurrentUser } from 'aws-amplify/auth/server';
 
@@ -9,7 +9,8 @@ const AdminLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const currentUser = await runWithAmplifyServerContext({
+  const context = await getTenantContext('default');
+  const currentUser = await context.runWithAmplifyServerContext({
     nextServerContext: { cookies },
     operation: (contextSpec) => getCurrentUser(contextSpec)
   });

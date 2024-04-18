@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { getTenantContext } from '@/utils/amplifyServerUtils';
 import { Providers } from './providers';
 
 const fontSans = FontSans({
@@ -14,11 +15,13 @@ export const metadata: Metadata = {
   description: 'The ultimate band and orchestra contest management system'
 };
 
-const RootLayout = ({
+const RootLayout = async ({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const context = await getTenantContext('default');
+
   return (
     <html lang="en" className="h-full bg-white">
       <body
@@ -27,7 +30,7 @@ const RootLayout = ({
           fontSans.variable
         )}
       >
-        <Providers>{children}</Providers>
+        <Providers amplifyConfig={context.config}>{children}</Providers>
       </body>
     </html>
   );

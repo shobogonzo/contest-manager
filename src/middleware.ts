@@ -1,13 +1,17 @@
-import { fetchAuthSession } from 'aws-amplify/auth/server';
 import { NextRequest, NextResponse } from 'next/server';
-import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils';
+import { AmplifyServer } from 'aws-amplify/adapter-core';
+import { fetchAuthSession } from 'aws-amplify/auth/server';
+import { getTenantContext } from '@/utils/amplifyServerUtils';
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
+  // TODO get tenantId from request
+  const tenantId = 'default';
+  const context = await getTenantContext(tenantId);
 
-  const authenticated = await runWithAmplifyServerContext({
+  const authenticated = await context.runWithAmplifyServerContext({
     nextServerContext: { request, response },
-    operation: async (contextSpec) => {
+    operation: async (contextSpec: AmplifyServer.ContextSpec) => {
       try {
         const session = await fetchAuthSession(contextSpec);
         return session.tokens !== undefined;

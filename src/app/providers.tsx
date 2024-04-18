@@ -1,15 +1,17 @@
 'use client';
 
+import { ResourcesConfig } from 'aws-amplify';
 import { AuthProvider } from '@/providers/auth-provider';
 import { NavProvider } from '@/providers/nav-provider';
 
-export function Providers({
-  children
-}: Readonly<{
+interface ProvidersProps {
+  amplifyConfig: ResourcesConfig;
   children: React.ReactNode;
-}>) {
+}
+
+export function Providers({ amplifyConfig, children }: ProvidersProps) {
   return (
-    <AuthProvider>
+    <AuthProvider amplifyConfig={amplifyConfig}>
       <NavProvider>{children}</NavProvider>
     </AuthProvider>
   );
