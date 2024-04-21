@@ -1,32 +1,14 @@
 import { cookies } from 'next/headers';
-import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { DataTable } from './data-table';
 import { columns } from './columns';
 
 import * as queries from '@/graphql/queries';
 import { User } from '@/API';
-import { getTenantContext } from '@/utils/amplifyServerUtils';
-
-const serverClients: any[] = [];
+import { getServerClient } from '@/utils/amplifyServerUtils';
 
 async function getData(): Promise<User[]> {
   'use server';
-  let serverClient = serverClients.find(
-    (c) => c.cookies === cookies
-  )?.serverClient;
-
-  if (!serverClient) {
-    // TODO get tenantId from cookies
-    const tenantId = 'default';
-    const context = await getTenantContext(tenantId);
-    serverClient = generateServerClientUsingCookies({
-      config: context.config,
-      cookies
-    });
-
-    serverClients.push({ cookies, serverClient });
-  }
-
+  const serverClient = await getServerClient('default', cookies);
   const { data }: any = await serverClient.graphql({
     query: queries.listUsers,
     variables: { limit: 10 }
@@ -39,7 +21,9 @@ export default async function Users() {
 
   return (
     <div className="container mx-auto">
-      <h1>Users</h1>
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        Users
+      </h1>
       <DataTable columns={columns} data={data} />
     </div>
   );

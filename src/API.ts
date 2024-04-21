@@ -6,20 +6,8 @@ export type UserInput = {
   firstName: string,
   lastName: string,
   email: string,
-  phone: string,
-  // TODO use AWSPhoneNumber
-  roles: Array< UserRole >,
+  phone?: string | null,
 };
-
-export enum UserRole {
-  SUPER_USER = "SUPER_USER",
-  ADMINISTRATOR = "ADMINISTRATOR",
-  SCHEDULER = "SCHEDULER",
-  DIRECTOR = "DIRECTOR",
-  CONTESTANT = "CONTESTANT",
-  JUDGE = "JUDGE",
-}
-
 
 export type User = {
   __typename: "User",
@@ -27,6 +15,7 @@ export type User = {
   firstName: string,
   lastName: string,
   email: string,
+  phone?: string | null,
 };
 
 export type AddUserMutationVariables = {
@@ -49,5 +38,6 @@ export type ListUsersQuery = {
     firstName: string,
     lastName: string,
     email: string,
+    phone?: string | null,
   } | null >,
 };

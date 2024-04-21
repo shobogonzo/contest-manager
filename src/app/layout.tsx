@@ -20,7 +20,8 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const context = await getTenantContext('default');
+  const tenantId = 'default';
+  const context = await getTenantContext(tenantId);
 
   return (
     <html lang="en" className="h-full bg-white">

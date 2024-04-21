@@ -1,5 +1,7 @@
 import { NextServer, createServerRunner } from '@aws-amplify/adapter-nextjs';
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/api';
 import { ResourcesConfig } from 'aws-amplify';
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 export type AmplifyServerContext = {
   tenantId: string;
@@ -33,4 +35,16 @@ export const getTenantContext = async (tenantId: string) => {
 
   amplifyServerContexts.push(context);
   return context;
+};
+
+export const getServerClient = async (
+  tenantId: string,
+  cookies: () => ReadonlyRequestCookies
+) => {
+  const context = await getTenantContext(tenantId);
+  const serverClient = generateServerClientUsingCookies({
+    config: context.config,
+    cookies
+  });
+  return serverClient;
 };

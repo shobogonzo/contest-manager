@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  return NextResponse.redirect(new URL('/', request.url));
+  return NextResponse.redirect(new URL('/login', request.url));
 }
 
 export const config = {
@@ -37,8 +37,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - app root (login page)
+     * - app root route
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|$).*)'
+    '/((?!api|_next/static|_next/image|favicon.ico|login).*)'
   ]
 };

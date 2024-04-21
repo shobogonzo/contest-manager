@@ -21,7 +21,7 @@ const Header = ({ user }: { user: AuthUser }) => {
   const router = useRouter();
   const signOutUser = () => {
     signOut();
-    router.push('/', { scroll: false });
+    router.push('/login');
   };
 
   return (
@@ -43,13 +43,13 @@ const Header = ({ user }: { user: AuthUser }) => {
           <Search />
 
           <div className="flex items-center gap-x-4 lg:gap-x-6">
-            <button
+            {/* <button
               type="button"
               className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
             >
               <span className="sr-only">View notifications</span>
               <BellIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
+            </button> */}
 
             {/* Separator */}
             <div
@@ -89,7 +89,7 @@ const Header = ({ user }: { user: AuthUser }) => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                  {userNavigation.map((item) => (
+                  {/* {userNavigation.map((item) => (
                     <Menu.Item key={item.name}>
                       {({ active }) => (
                         <a
@@ -103,7 +103,7 @@ const Header = ({ user }: { user: AuthUser }) => {
                         </a>
                       )}
                     </Menu.Item>
-                  ))}
+                  ))} */}
                   <Menu.Item>
                     <a
                       href="#"

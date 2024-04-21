@@ -13,7 +13,7 @@ const Redirecting = () => {
   return <>Redirecting...</>;
 };
 
-const AppRoot = () => {
+const Logout = () => {
   // https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   console.log(authStatus);
@@ -28,4 +28,4 @@ const AppRoot = () => {
   );
 };
 
-export default AppRoot;
+export default Logout;

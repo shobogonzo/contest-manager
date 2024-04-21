@@ -6,6 +6,7 @@ import { Transition, Dialog } from '@headlessui/react';
 import {
   Cog6ToothIcon,
   BuildingLibraryIcon,
+  HomeIcon,
   UsersIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
@@ -14,13 +15,14 @@ import { NavContext } from '../providers/nav-provider';
 import { usePathname } from 'next/navigation';
 
 const navigation = [
-  { name: 'Users', href: '/users', icon: UsersIcon, current: false },
-  {
-    name: 'Organizations',
-    href: '/orgs',
-    icon: BuildingLibraryIcon,
-    current: false
-  }
+  { name: 'Home', href: '/home', icon: HomeIcon, current: false },
+  { name: 'Users', href: '/users', icon: UsersIcon, current: false }
+  // {
+  //   name: 'Organizations',
+  //   href: '/orgs',
+  //   icon: BuildingLibraryIcon,
+  //   current: false
+  // }
 ];
 
 export default function NavBar() {
