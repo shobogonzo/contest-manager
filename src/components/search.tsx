@@ -4,7 +4,7 @@ const Search = () => {
   return (
     <>
       <form className="relative flex flex-1" action="#" method="GET">
-        <label htmlFor="search-field" className="sr-only">
+        {/* <label htmlFor="search-field" className="sr-only">
           Search
         </label>
         <MagnifyingGlassIcon
@@ -17,7 +17,7 @@ const Search = () => {
           placeholder="Search..."
           type="search"
           name="search"
-        />
+        /> */}
       </form>
     </>
   );

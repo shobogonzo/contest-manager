@@ -14,6 +14,7 @@ export const listUsers = /* GraphQL */ `query ListUsers($limit: Int!, $nextToken
     firstName
     lastName
     email
+    phone
     __typename
   }
 }
