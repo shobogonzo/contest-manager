@@ -1,5 +1,3 @@
-'use client';
-
 import { ResourcesConfig } from 'aws-amplify';
 import { AuthProvider } from '@/providers/auth-provider';
 import { NavProvider } from '@/providers/nav-provider';

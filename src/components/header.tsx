@@ -21,7 +21,9 @@ const Header = ({ user }: { user: AuthUser }) => {
   const router = useRouter();
   const signOutUser = () => {
     signOut();
-    router.push('/login');
+    setTimeout(() => {
+      router.push('/login', { scroll: false });
+    }, 500);
   };
 
   return (

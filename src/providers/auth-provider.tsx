@@ -19,33 +19,5 @@ export const AuthProvider = ({ amplifyConfig, children }: ProvidersProps) => {
     }
   }, [amplifyConfig]);
 
-  return (
-    <Authenticator
-      loginMechanisms={['email']}
-      signUpAttributes={['given_name', 'family_name', 'phone_number']}
-      formFields={{
-        signUp: {
-          given_name: {
-            label: 'First Name',
-            placeholder: 'Enter your First Name',
-            order: 1
-          },
-          family_name: {
-            label: 'Last Name',
-            placeholder: 'Enter your Last Name',
-            order: 2
-          },
-          email: {
-            order: 3
-          },
-          phone_number: {
-            order: 4
-          }
-        }
-      }}
-      variation="modal"
-    >
-      <Authenticator.Provider>{children}</Authenticator.Provider>
-    </Authenticator>
-  );
+  return <Authenticator.Provider>{children}</Authenticator.Provider>;
 };
