@@ -16,7 +16,6 @@ const Redirecting = () => {
 const Login = () => {
   // https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  console.log(authStatus);
 
   switch (authStatus) {
     case 'configuring':
@@ -49,7 +48,7 @@ const Login = () => {
             }
           }}
           variation="modal"
-        ></Authenticator>
+        />
       );
   }
 };
