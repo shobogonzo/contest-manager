@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/navigation';
 
 const Loading = () => {
@@ -13,19 +13,44 @@ const Redirecting = () => {
   return <>Redirecting...</>;
 };
 
-const Logout = () => {
+const Login = () => {
   // https://ui.docs.amplify.aws/react/connected-components/authenticator/advanced#access-auth-state
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  console.log(authStatus);
 
-  return (
-    <>
-      {(authStatus === 'configuring' || authStatus === 'unauthenticated') && (
-        <Loading />
-      )}
-      {authStatus === 'authenticated' && <Redirecting />}
-    </>
-  );
+  switch (authStatus) {
+    case 'configuring':
+      return <Loading />;
+    case 'authenticated':
+      return <Redirecting />;
+    default:
+      return (
+        <Authenticator
+          loginMechanisms={['email']}
+          signUpAttributes={['given_name', 'family_name', 'phone_number']}
+          formFields={{
+            signUp: {
+              given_name: {
+                label: 'First Name',
+                placeholder: 'Enter your First Name',
+                order: 1
+              },
+              family_name: {
+                label: 'Last Name',
+                placeholder: 'Enter your Last Name',
+                order: 2
+              },
+              email: {
+                order: 3
+              },
+              phone_number: {
+                order: 4
+              }
+            }
+          }}
+          variation="modal"
+        />
+      );
+  }
 };
 
-export default Logout;
+export default Login;

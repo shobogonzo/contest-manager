@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { getTenantContext } from '@/utils/amplifyServerUtils';
 import { Providers } from './providers';
 
 const fontSans = FontSans({
@@ -20,9 +19,6 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const tenantId = 'default';
-  const context = await getTenantContext(tenantId);
-
   return (
     <html lang="en" className="h-full bg-white">
       <body
@@ -31,7 +27,7 @@ const RootLayout = async ({
           fontSans.variable
         )}
       >
-        <Providers amplifyConfig={context.config}>{children}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

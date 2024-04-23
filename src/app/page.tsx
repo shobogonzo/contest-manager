@@ -9,7 +9,7 @@ const Loading = () => {
 
 const Redirecting = () => {
   const router = useRouter();
-  router.push('/home');
+  router.push('/login');
   return <>Redirecting...</>;
 };
 
@@ -20,10 +20,10 @@ const AppRoot = () => {
 
   return (
     <>
-      {(authStatus === 'configuring' || authStatus === 'unauthenticated') && (
-        <Loading />
+      {authStatus === 'configuring' && <Loading />}
+      {(authStatus === 'authenticated' || authStatus === 'unauthenticated') && (
+        <Redirecting />
       )}
-      {authStatus === 'authenticated' && <Redirecting />}
     </>
   );
 };
