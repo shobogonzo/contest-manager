@@ -1,23 +1,14 @@
-import { cookies } from 'next/headers';
 import { DataTable } from './data-table';
 import { columns } from './columns';
+import { getUsers } from '@/app/actions';
 
-import * as queries from '@/graphql/queries';
-import { User } from '@/API';
-import { getServerClient } from '@/utils/amplifyServerUtils';
-
-async function getData(): Promise<User[]> {
-  'use server';
-  const serverClient = await getServerClient('default', cookies);
-  const { data }: any = await serverClient.graphql({
-    query: queries.listUsers,
-    variables: { limit: 10 }
-  });
-  return data.listUsers;
-}
-
-export default async function Users() {
-  const data = await getData();
+const Users = async () => {
+  let { users: data, nextToken } = await getUsers();
+  while (nextToken) {
+    const { users, nextToken: token } = await getUsers(nextToken);
+    data.push(...users);
+    nextToken = token;
+  }
 
   return (
     <div className="container mx-auto">
@@ -27,4 +18,6 @@ export default async function Users() {
       <DataTable columns={columns} data={data} />
     </div>
   );
-}
+};
+
+export default Users;

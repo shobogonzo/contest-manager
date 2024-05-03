@@ -7,7 +7,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Fragment, useContext } from 'react';
 import { classNames } from '@/lib/utils';
 import { NavContext } from '@/providers/nav-provider';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { AuthUser } from 'aws-amplify/auth';
 import { useRouter } from 'next/navigation';
 import Search from './search';
@@ -16,12 +15,10 @@ const userNavigation = [{ name: 'Your profile', href: '#' }];
 
 const Header = ({ user }: { user: AuthUser }) => {
   const { setSidebarOpen } = useContext(NavContext);
-  const { signOut } = useAuthenticator((context) => [context.user]);
 
   const router = useRouter();
   const signOutUser = () => {
-    signOut();
-    router.push('/', { scroll: false });
+    router.push('/logout', { scroll: false });
   };
 
   return (
