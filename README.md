@@ -1,3 +1,19 @@
+# Contest Manager Next.JS App
+
+## Getting Started
+
+### Set up Amplify codegen
+
+Set up the Amplify CLI to autogenerate TypeScript models from AppSync API schema:
+
+```bash
+npx @aws-amplify/cli codegen add --apiId your_api_id --region your_region
+```
+
+After deploying API changes, run `yarn codegen` to regenerate **API.ts**, **queries.ts**, and **mutations.ts**
+
+# Info
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

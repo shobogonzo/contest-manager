@@ -1,7 +1,7 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 // import { Checkbox } from '@/components/ui/checkbox';
@@ -56,18 +56,56 @@ export const columns: ColumnDef<User>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === 'asc' ? (
+            <ArrowUp className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === 'desc' ? (
+            <ArrowDown className="ml-2 h-4 w-4" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
         </Button>
       );
     }
   },
   {
     accessorKey: 'firstName',
-    header: 'First Name'
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          First Name
+          {column.getIsSorted() === 'asc' ? (
+            <ArrowUp className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === 'desc' ? (
+            <ArrowDown className="ml-2 h-4 w-4" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    }
   },
   {
     accessorKey: 'lastName',
-    header: 'Last Name'
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Last Name
+          {column.getIsSorted() === 'asc' ? (
+            <ArrowUp className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === 'desc' ? (
+            <ArrowDown className="ml-2 h-4 w-4" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    }
   },
   {
     accessorKey: 'phone',

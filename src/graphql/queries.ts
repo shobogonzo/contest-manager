@@ -10,11 +10,16 @@ type GeneratedQuery<InputType, OutputType> = string & {
 
 export const listUsers = /* GraphQL */ `query ListUsers($limit: Int!, $nextToken: String) {
   listUsers(limit: $limit, nextToken: $nextToken) {
-    username
-    firstName
-    lastName
-    email
-    phone
+    users {
+      username
+      status
+      firstName
+      lastName
+      email
+      phone
+      __typename
+    }
+    nextToken
     __typename
   }
 }
