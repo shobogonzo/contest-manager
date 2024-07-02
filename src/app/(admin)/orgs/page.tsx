@@ -1,9 +1,11 @@
-const OrganizationList = () => {
+const Page = () => {
   return (
-    <>
-      <h1>Organizations</h1>
-    </>
+    <div>
+      <h1 className="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+        Organizations
+      </h1>
+    </div>
   );
 };
 
-export default OrganizationList;
+export default Page;

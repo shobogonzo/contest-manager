@@ -1,198 +1,96 @@
-/* eslint-disable @next/next/no-img-element */
-'use client';
+'use client'
 
-import { classNames } from '@/lib/utils';
-import { Transition, Dialog } from '@headlessui/react';
-import {
-  Cog6ToothIcon,
-  BuildingLibraryIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon
-} from '@heroicons/react/24/outline';
-import { Fragment, useContext } from 'react';
-import { NavContext } from '../providers/nav-provider';
-import { usePathname } from 'next/navigation';
+import * as Headless from '@headlessui/react'
+import clsx from 'clsx'
+import { LayoutGroup, motion } from 'framer-motion'
+import React, { useId } from 'react'
+import { TouchTarget } from './button'
+import { Link } from './link'
 
-const navigation = [
-  { name: 'Home', href: '/home', icon: HomeIcon, current: false },
-  { name: 'Users', href: '/users', icon: UsersIcon, current: false }
-  // {
-  //   name: 'Organizations',
-  //   href: '/orgs',
-  //   icon: BuildingLibraryIcon,
-  //   current: false
-  // }
-];
+export function Navbar({ className, ...props }: React.ComponentPropsWithoutRef<'nav'>) {
+  return <nav {...props} className={clsx(className, 'flex flex-1 items-center gap-4 py-2.5')} />
+}
 
-export default function NavBar() {
-  const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
-  const pathName = usePathname();
-  navigation.map((link) => {
-    link.current = pathName === link.href;
-  });
+export function NavbarDivider({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  return <div aria-hidden="true" {...props} className={clsx(className, 'h-6 w-px bg-zinc-950/10 dark:bg-white/10')} />
+}
+
+export function NavbarSection({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  let id = useId()
 
   return (
-    <>
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50 lg:hidden"
-          onClose={setSidebarOpen}
+    <LayoutGroup id={id}>
+      <div {...props} className={clsx(className, 'flex items-center gap-3')} />
+    </LayoutGroup>
+  )
+}
+
+export function NavbarSpacer({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  return <div aria-hidden="true" {...props} className={clsx(className, '-ml-4 flex-1')} />
+}
+
+export const NavbarItem = React.forwardRef(function NavbarItem(
+  {
+    current,
+    className,
+    children,
+    ...props
+  }: { current?: boolean; className?: string; children: React.ReactNode } & (
+    | Omit<Headless.ButtonProps, 'className'>
+    | Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className'>
+  ),
+  ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
+) {
+  let classes = clsx(
+    // Base
+    'relative flex min-w-0 items-center gap-3 rounded-lg p-2 text-left text-base/6 font-medium text-zinc-950 sm:text-sm/5',
+    // Leading icon/icon-only
+    'data-[slot=icon]:*:size-6 data-[slot=icon]:*:shrink-0 data-[slot=icon]:*:fill-zinc-500 sm:data-[slot=icon]:*:size-5',
+    // Trailing icon (down chevron or similar)
+    'data-[slot=icon]:last:[&:not(:nth-child(2))]:*:ml-auto data-[slot=icon]:last:[&:not(:nth-child(2))]:*:size-5 sm:data-[slot=icon]:last:[&:not(:nth-child(2))]:*:size-4',
+    // Avatar
+    'data-[slot=avatar]:*:-m-0.5 data-[slot=avatar]:*:size-7 data-[slot=avatar]:*:[--avatar-radius:theme(borderRadius.DEFAULT)] data-[slot=avatar]:*:[--ring-opacity:10%] sm:data-[slot=avatar]:*:size-6',
+    // Hover
+    'data-[hover]:bg-zinc-950/5 data-[slot=icon]:*:data-[hover]:fill-zinc-950',
+    // Active
+    'data-[active]:bg-zinc-950/5 data-[slot=icon]:*:data-[active]:fill-zinc-950',
+    // Dark mode
+    'dark:text-white dark:data-[slot=icon]:*:fill-zinc-400',
+    'dark:data-[hover]:bg-white/5 dark:data-[slot=icon]:*:data-[hover]:fill-white',
+    'dark:data-[active]:bg-white/5 dark:data-[slot=icon]:*:data-[active]:fill-white'
+  )
+
+  return (
+    <span className={clsx(className, 'relative')}>
+      {current && (
+        <motion.span
+          layoutId="current-indicator"
+          className="absolute inset-x-2 -bottom-2.5 h-0.5 rounded-full bg-zinc-950 dark:bg-white"
+        />
+      )}
+      {'href' in props ? (
+        <Link
+          {...props}
+          className={classes}
+          data-current={current ? 'true' : undefined}
+          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-gray-900/80" />
-          </Transition.Child>
+          <TouchTarget>{children}</TouchTarget>
+        </Link>
+      ) : (
+        <Headless.Button
+          {...props}
+          className={clsx('cursor-default', classes)}
+          data-current={current ? 'true' : undefined}
+          ref={ref}
+        >
+          <TouchTarget>{children}</TouchTarget>
+        </Headless.Button>
+      )}
+    </span>
+  )
+})
 
-          <div className="fixed inset-0 flex">
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-in-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in-out duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                    <button
-                      type="button"
-                      className="-m-2.5 p-2.5"
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </div>
-                </Transition.Child>
-                {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                  <div className="flex h-16 shrink-0 items-center">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                      alt="Your Company"
-                    />
-                  </div>
-                  <nav className="flex flex-1 flex-col">
-                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                      <li>
-                        <ul role="list" className="-mx-2 space-y-1">
-                          {navigation.map((item) => (
-                            <li key={item.name}>
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? 'bg-gray-800 text-white'
-                                    : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                                  'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                )}
-                              >
-                                <item.icon
-                                  className="h-6 w-6 shrink-0"
-                                  aria-hidden="true"
-                                />
-                                {item.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                      <li className="mt-auto">
-                        <a
-                          href="#"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                        >
-                          <Cog6ToothIcon
-                            className="h-6 w-6 shrink-0"
-                            aria-hidden="true"
-                          />
-                          Settings
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-      {/* Static sidebar for desktop */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-        {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
-          <div className="flex h-16 shrink-0 items-center">
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company"
-            />
-          </div>
-          <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-800 text-white'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                        )}
-                      >
-                        <item.icon
-                          className="h-6 w-6 shrink-0"
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-              <li className="mt-auto">
-                <a
-                  href="#"
-                  className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                >
-                  <Cog6ToothIcon
-                    className="h-6 w-6 shrink-0"
-                    aria-hidden="true"
-                  />
-                  Settings
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </>
-  );
+export function NavbarLabel({ className, ...props }: React.ComponentPropsWithoutRef<'span'>) {
+  return <span {...props} className={clsx(className, 'truncate')} />
 }

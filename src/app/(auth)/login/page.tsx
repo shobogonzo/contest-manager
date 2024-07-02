@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
-import { useRouter } from 'next/navigation';
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useRouter } from "next/navigation";
 
 const Loading = () => {
   return <>Loading...</>;
@@ -9,7 +9,8 @@ const Loading = () => {
 
 const Redirecting = () => {
   const router = useRouter();
-  router.push('/home');
+  // TODO post-login nav - redirect to role-based route for initial login or proceed to current route if refreshing creds
+  router.push("/home", { scroll: false });
   return <>Redirecting...</>;
 };
 
@@ -18,38 +19,10 @@ const Login = () => {
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
 
   switch (authStatus) {
-    case 'configuring':
-      return <Loading />;
-    case 'authenticated':
+    case "authenticated":
       return <Redirecting />;
     default:
-      return (
-        <Authenticator
-          loginMechanisms={['email']}
-          signUpAttributes={['given_name', 'family_name', 'phone_number']}
-          formFields={{
-            signUp: {
-              given_name: {
-                label: 'First Name',
-                placeholder: 'Enter your First Name',
-                order: 1
-              },
-              family_name: {
-                label: 'Last Name',
-                placeholder: 'Enter your Last Name',
-                order: 2
-              },
-              email: {
-                order: 3
-              },
-              phone_number: {
-                order: 4
-              }
-            }
-          }}
-          variation="modal"
-        />
-      );
+      return <Loading />;
   }
 };
 

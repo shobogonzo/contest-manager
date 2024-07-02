@@ -1,31 +1,22 @@
-import Header from '@/components/header';
-import NavBar from '@/components/navbar';
-import { getTenantContext } from '@/utils/amplifyServerUtils';
-import { cookies } from 'next/headers';
-import { getCurrentUser } from 'aws-amplify/auth/server';
+"use client";
 
-const AdminLayout = async ({
-  children
+import Providers from "@/app/providers";
+import { SidebarLayout } from "@/components/sidebar-layout";
+import SidebarNav from "./sidebar-nav";
+import MobileNav from "./mobile-nav";
+
+function Layout({
+  children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
-  const context = await getTenantContext('default');
-  const currentUser = await context.runWithAmplifyServerContext({
-    nextServerContext: { cookies },
-    operation: (contextSpec) => getCurrentUser(contextSpec)
-  });
-
+}>) {
   return (
-    <>
-      <NavBar />
-      <div className="lg:pl-72">
-        <Header user={currentUser} />
-        <main className="py-10">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-        </main>
-      </div>
-    </>
+    <Providers>
+      <SidebarLayout sidebar={<SidebarNav />} navbar={<MobileNav />}>
+        {children}
+      </SidebarLayout>
+    </Providers>
   );
-};
+}
 
-export default AdminLayout;
+export default Layout;

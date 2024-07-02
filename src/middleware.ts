@@ -1,15 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { AmplifyServer } from 'aws-amplify/adapter-core';
-import { fetchAuthSession } from 'aws-amplify/auth/server';
-import { getTenantContext } from '@/utils/amplifyServerUtils';
+import { NextRequest, NextResponse } from "next/server";
+import { AmplifyServer } from "aws-amplify/adapter-core";
+import { fetchAuthSession } from "aws-amplify/auth/server";
+import { runWithAmplifyServerContext } from "./utils/amplify-utils";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  // TODO get tenantId from request
-  const tenantId = 'default';
-  const context = await getTenantContext(tenantId);
-
-  const authenticated = await context.runWithAmplifyServerContext({
+  const authenticated = await runWithAmplifyServerContext({
     nextServerContext: { request, response },
     operation: async (contextSpec: AmplifyServer.ContextSpec) => {
       try {
@@ -19,14 +15,14 @@ export async function middleware(request: NextRequest) {
         console.log(error);
         return false;
       }
-    }
+    },
   });
 
   if (authenticated) {
     return response;
   }
 
-  return NextResponse.redirect(new URL('/login', request.url));
+  return NextResponse.redirect(new URL("/login", request.url));
 }
 
 export const config = {
@@ -39,6 +35,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - login route
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|login).*)'
-  ]
+    "/((?!$|api|_next/static|_next/image|favicon.ico|login).*)",
+  ],
 };

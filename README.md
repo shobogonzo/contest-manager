@@ -1,19 +1,3 @@
-# Contest Manager Next.JS App
-
-## Getting Started
-
-### Set up Amplify codegen
-
-Set up the Amplify CLI to autogenerate TypeScript models from AppSync API schema:
-
-```bash
-npx @aws-amplify/cli codegen add --apiId your_api_id --region your_region
-```
-
-After deploying API changes, run `yarn codegen` to regenerate **API.ts**, **queries.ts**, and **mutations.ts**
-
-# Info
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -50,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# Terms and Concepts
+
+We are building a contest management system where users can create contests, register participants, schedule performances, and assign scores to performances. Contests are held at locations with many rooms (e.g., a high school) and may span multiple days. Directors register participants for a contest and select preferred performance times. Schedulers review, adjust, and post contest schedules. Each performance is scored by one or more judges. Scores are then publicly posted for directors and participants to review.
+
+## Administration
+
+- Users
+
+### Users
+
+- An Administrator represents a user who is responsible for creating and managing contests at a high level. Administrators set contest dates, locations, and eligibility requirements. Administrators also assign scheduling and adjudication responsibilites for contests.
+- A Director represents a user who is responsible for a group of participants. Directors register their groups for contests and select preferred performance times.
+- A Scheduler represents a user who is responsible for organizing the performance schedule for a contest. Schedulers set the daily start and end times for a contest. Schedulers can move performances and adjust performance start and end times.
+- A Judge represents a user who is responsible for scoring performances. Judges select instrument specializations that determine which performances they are qualified to judge.
+
+## Scheduling
+
+- Day: A date on which the contest is held. A contest may span more than one day.
+- Room: The location where a performance takes place. Each room has assigned judges.
+- Judge: Individual who evaluates performances. Each judge has specific instrument specializations.
+- Performance: A scheduled event with a specified start and end time where a group or individual perform in the contest.
+- Participant: Group or individual performing in a contest. A participant plays a specific instrument for a performance, and participants are assigned to rooms based on judges' instrument specialization.
