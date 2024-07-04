@@ -138,7 +138,7 @@ const data = {
     id: chance.guid(),
     name: "Dist 12 Solo & Ensemble",
     location: "Southern Nazarene University",
-    dates: [new Date(2024, 8, 21), new Date(2024, 8, 22)],
+    dates: [new Date("2024-09-21T14:00:00Z"), new Date("2024-09-22T16:00:00Z")],
     description: "Lorem ipsum",
   },
   days: [
@@ -147,8 +147,8 @@ const data = {
       endTime: "2024-09-21T22:00:00Z",
       rooms: Array.from({ length: 30 }, () =>
         generateRoom(
-          new Date(Date.UTC(2024, 8, 21, 14, 0)),
-          new Date(Date.UTC(2024, 8, 21, 22, 0))
+          new Date("2024-09-21T14:00:00Z"),
+          new Date("2024-09-21T22:00:00Z")
         )
       ),
     },
@@ -157,8 +157,8 @@ const data = {
       endTime: "2024-09-22T22:00:00Z",
       rooms: Array.from({ length: 30 }, () =>
         generateRoom(
-          new Date(Date.UTC(2024, 8, 22, 16, 0)),
-          new Date(Date.UTC(2024, 8, 22, 19, 0))
+          new Date("2024-09-22T16:00:00Z"),
+          new Date("2024-09-22T22:00:00Z")
         )
       ),
     },
