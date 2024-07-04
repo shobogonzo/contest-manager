@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }: ProvidersProps) => {
       <Authenticator
         className="h-full"
         loginMechanisms={["email"]}
+        hideSignUp={true}
         formFields={{
-          // require first name and last name on sign up
           signUp: {
             given_name: {
               label: "First Name",
