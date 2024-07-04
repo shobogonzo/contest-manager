@@ -138,26 +138,26 @@ const data = {
     id: chance.guid(),
     name: "Dist 12 Solo & Ensemble",
     location: "Southern Nazarene University",
-    dates: [new Date("2024-09-21T14:00:00Z"), new Date("2024-09-22T16:00:00Z")],
+    dates: [new Date("2024-09-21T13:00:00Z"), new Date("2024-09-22T16:00:00Z")],
     description: "Lorem ipsum",
   },
   days: [
     {
-      startTime: "2024-09-21T14:00:00Z",
+      startTime: "2024-09-21T13:00:00Z",
       endTime: "2024-09-21T22:00:00Z",
       rooms: Array.from({ length: 30 }, () =>
         generateRoom(
-          new Date("2024-09-21T14:00:00Z"),
+          new Date("2024-09-21T13:00:00Z"),
           new Date("2024-09-21T22:00:00Z")
         )
       ),
     },
     {
-      startTime: "2024-09-22T16:00:00Z",
+      startTime: "2024-09-22T13:00:00Z",
       endTime: "2024-09-22T22:00:00Z",
       rooms: Array.from({ length: 30 }, () =>
         generateRoom(
-          new Date("2024-09-22T16:00:00Z"),
+          new Date("2024-09-22T13:00:00Z"),
           new Date("2024-09-22T22:00:00Z")
         )
       ),
@@ -166,6 +166,13 @@ const data = {
 };
 
 export async function getContest(id: string) {
+  const participantCount = data.days
+    .flatMap((day) => day.rooms)
+    .flatMap((room) => room.performances)
+    .flatMap((performance) => performance.contestEntry.participants).length;
+
+  console.log(`${participantCount} participants`);
+
   return data.contest;
 }
 

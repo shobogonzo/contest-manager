@@ -9,7 +9,7 @@ const data = {
     id: chance.guid(),
     name: "Dist 12 Solo & Ensemble",
     location: "Southern Nazarene University",
-    dates: [new Date("2024-09-21T14:00:00Z"), new Date("2024-09-22T16:00:00Z")],
+    dates: [new Date("2024-09-21T13:00:00Z"), new Date("2024-09-22T16:00:00Z")],
     description: "Lorem ipsum",
   },
 };
