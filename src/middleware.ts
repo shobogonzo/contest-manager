@@ -5,24 +5,24 @@ import { runWithAmplifyServerContext } from "./utils/amplify-utils";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
-  const authenticated = await runWithAmplifyServerContext({
-    nextServerContext: { request, response },
-    operation: async (contextSpec: AmplifyServer.ContextSpec) => {
-      try {
-        const session = await fetchAuthSession(contextSpec);
-        return session.tokens !== undefined;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
-    },
-  });
+  // const authenticated = await runWithAmplifyServerContext({
+  //   nextServerContext: { request, response },
+  //   operation: async (contextSpec: AmplifyServer.ContextSpec) => {
+  //     try {
+  //       const session = await fetchAuthSession(contextSpec);
+  //       return session.tokens !== undefined;
+  //     } catch (error) {
+  //       console.log(error);
+  //       return false;
+  //     }
+  //   },
+  // });
 
-  if (authenticated) {
-    return response;
-  }
+  // if (authenticated) {
+  return response;
+  // }
 
-  return NextResponse.redirect(new URL("/login", request.url));
+  // return NextResponse.redirect(new URL("/login", request.url));
 }
 
 export const config = {

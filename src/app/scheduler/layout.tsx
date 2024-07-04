@@ -17,13 +17,13 @@ export interface NavbarProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <Providers>
-      <StackedLayout
-        navbar={<TopNav navItems={navItems} />}
-        sidebar={<MobileNav navItems={navItems} />}
-      >
-        {children}
-      </StackedLayout>
-    </Providers>
+    // <Providers>
+    <StackedLayout
+      navbar={<TopNav navItems={navItems} />}
+      sidebar={<MobileNav navItems={navItems} />}
+    >
+      {children}
+    </StackedLayout>
+    // </Providers>
   );
 }
