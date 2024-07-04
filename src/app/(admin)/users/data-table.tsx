@@ -1,9 +1,6 @@
 import {
   Pagination,
-  PaginationGap,
-  PaginationList,
   PaginationNext,
-  PaginationPage,
   PaginationPrevious,
 } from "@/components/pagination";
 import {

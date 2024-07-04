@@ -10,7 +10,7 @@ const Loading = () => {
 const Redirecting = () => {
   const router = useRouter();
   // TODO post-login nav - redirect to role-based route for initial login or proceed to current route if refreshing creds
-  router.push("/home", { scroll: false });
+  router.push("/scheduler", { scroll: false });
   return <>Redirecting...</>;
 };
 

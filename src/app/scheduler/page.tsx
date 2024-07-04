@@ -3,12 +3,13 @@ import { Link } from "@/components/link";
 import moment from "moment";
 const chance = new Chance();
 
+// TODO get list
 const data = {
   contest: {
     id: chance.guid(),
     name: "Dist 12 Solo & Ensemble",
     location: "Southern Nazarene University",
-    dates: [new Date("2024-09-21T14:00:00Z"), new Date("2024-09-22T16:00:00Z")],
+    dates: [new Date(2024, 8, 21), new Date(2024, 8, 22)],
     description: "Lorem ipsum",
   },
 };

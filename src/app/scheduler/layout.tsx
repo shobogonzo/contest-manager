@@ -3,7 +3,9 @@ import TopNav from "./top-nav";
 import MobileNav from "./mobile-nav";
 import Providers from "../providers";
 
-const navItems: { label: string; url: string }[] = []; // [{ label: "Contests", url: "/scheduler/contests" }];
+const navItems: { label: string; url: string }[] = [
+  { label: "Scheduler", url: "/scheduler" },
+];
 
 interface LayoutProps {
   children: Readonly<React.ReactNode>;

@@ -13,29 +13,30 @@ import clsx from "clsx";
 import moment from "moment";
 import { useParams } from "next/navigation";
 
-export default function Header({ days }: { days: { startTime: Date }[] }) {
+export default function Header({ days }: { days: Date[] }) {
   const { date } = useParams();
 
   return (
     <>
       <header className="flex flex-none items-center justify-between border-b border-gray-200 rounded-t-md px-6 py-4 dark:bg-gray-800">
         <div>
-          <h1 className="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+          <h2 className="text-base font-semibold leading-6 text-gray-900 dark:text-white">
             <time dateTime="2022-01-22" className="sm:hidden">
               {moment(date).format("MMM D, YYYY")}
             </time>
             <time dateTime="2022-01-22" className="hidden sm:inline">
               {moment(date).format("MMMM D, YYYY")}
             </time>
-          </h1>
+          </h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-50">
             {moment(date).format("dddd")}
           </p>
         </div>
+
         <div className="flex items-center">
           <DayPicker
             days={days.map((day) => ({
-              date: day.startTime,
+              date: day,
             }))}
           />
           {/* <div className="hidden md:flex md:items-center">

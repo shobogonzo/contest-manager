@@ -36,21 +36,25 @@ import SignOutButton from "./sign-out-button";
 
 export default async function TopNav({ navItems }: NavbarProps) {
   const user = await getCurrentUserServer();
-  if (!user) {
-    return null;
+  let userInitials = "";
+  if (user && user.given_name && user.family_name) {
+    userInitials = `${user.given_name[0]} ${user.family_name[0]}`;
   }
-  const userInitials = `${user.given_name![0]} ${user.family_name![0]}`;
 
   return (
     <Navbar>
-      <Dropdown>
+      {/* <Dropdown>
         <DropdownButton as={NavbarItem} className="max-lg:hidden">
           <Avatar src="/logo.png" />
           <NavbarLabel>Contest Manager</NavbarLabel>
           <ChevronDownIcon />
         </DropdownButton>
         <DropDownNav />
-      </Dropdown>
+      </Dropdown> */}
+      <NavbarItem href="/home" className="max-lg:hidden">
+        <Avatar src="/logo.png" />
+        {/* <NavbarLabel>Contest Manager</NavbarLabel> */}
+      </NavbarItem>
       <NavbarDivider className="max-lg:hidden" />
       <NavbarSection className="max-lg:hidden">
         {navItems.map(({ label, url }) => (
